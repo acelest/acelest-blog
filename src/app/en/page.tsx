@@ -1,7 +1,7 @@
 import NavBar from "@/components/NavBar";
 import { LineShadowTextDemo } from "@/components/TextHero";
 
-export default function Home() {
+export default function EnglishHome() {
   return (
     <main className="flex min-h-screen flex-col items-center">
       <NavBar />

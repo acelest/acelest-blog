@@ -120,3 +120,84 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Animations pour le composant LineShadowText */
+@keyframes line-shadow-subtle {
+  0%,
+  100% {
+    transform: translate(0.005em, 0.005em);
+    opacity: 0.7;
+  }
+  25% {
+    transform: translate(0.01em, 0.005em);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translate(0.01em, 0.01em);
+    opacity: 0.8;
+  }
+  75% {
+    transform: translate(0.005em, 0.01em);
+    opacity: 0.7;
+  }
+}
+
+@keyframes line-shadow-glow {
+  0%,
+  100% {
+    opacity: 0.15;
+    transform: translate(0.015em, 0.015em);
+    filter: blur(0.5px);
+  }
+  50% {
+    opacity: 0.25;
+    transform: translate(0.025em, 0.025em);
+    filter: blur(1px);
+  }
+}
+
+@keyframes text-shimmer {
+  0% {
+    background-position: -100% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Animation du curseur clignotant pour l'effet typewriter */
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+@layer utilities {
+  .animate-line-shadow-subtle {
+    animation: line-shadow-subtle 4s ease-in-out infinite;
+  }
+
+  .animate-line-shadow-glow {
+    animation: line-shadow-glow 6s ease-in-out infinite;
+  }
+
+  .animate-text-shimmer {
+    background: linear-gradient(
+      to right,
+      transparent 0%,
+      rgba(255, 255, 255, 0.1) 25%,
+      transparent 50%
+    );
+    background-size: 200% 100%;
+    background-clip: text;
+    animation: text-shimmer 6s linear infinite;
+  }
+
+  .animate-blink {
+    animation: blink 0.75s step-end infinite;
+  }
+}
