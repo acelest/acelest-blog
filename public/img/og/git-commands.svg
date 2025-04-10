@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#171515" />
+  <g transform="translate(450, 180) scale(1.2)">
+    <path d="M251.7 168.2c0 12.7-3.6 24-10.8 34-7.2 10-16 16.5-26.4 19.5l29.4 49.4h-30.6L187 225.5h-23.4v45.6h-25.8V135H192c19 0 33.3 3.5 42.9 10.6s14.8 18.5 14.8 34.2v-11.6zm-88.1-14.3v33H190c6.3 0 11-1.6 14.3-4.8 3.3-3.2 4.9-7.6 4.9-13.2 0-5.5-1.6-9.9-4.9-13.2-3.3-3.2-8-4.8-14.3-4.8h-37.1zm0 0" fill="#f05133"/>
+  </g>
+  <text x="600" y="520" font-family="system-ui, -apple-system, sans-serif" font-size="72" font-weight="700" text-anchor="middle" fill="#e2e8f0">Git Commands</text>
+  <text x="600" y="580" font-family="system-ui, -apple-system, sans-serif" font-size="32" font-weight="400" text-anchor="middle" fill="#94a3b8">Les commandes indispensables</text>
+</svg>

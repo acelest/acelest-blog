@@ -1,124 +1,98 @@
-// "use client";
+"use client";
 
-// import { Button } from "@/components/ui/button";
-// import { usePathname } from "next/navigation";
-// import { useState } from "react";
+import { cn } from "@/lib/utils";
+import { usePathname } from "next/navigation";
+import { useState } from "react";
 
-// export default function NewsletterForm() {
-//   const [email, setEmail] = useState("");
-//   const [status, setStatus] = useState<
-//     "idle" | "loading" | "success" | "error"
-//   >("idle");
-//   const [message, setMessage] = useState("");
-//   const pathname = usePathname();
-//   const currentLang = pathname.startsWith("/fr") ? "fr" : "en";
+interface NewsletterFormProps {
+  className?: string;
+}
 
-//   const handleSubmit = async (e: React.FormEvent) => {
-//     e.preventDefault();
-//     setStatus("loading");
-//     setMessage("");
+export default function NewsletterForm({ className }: NewsletterFormProps) {
+  const pathname = usePathname();
+  const isEnglishPath = pathname.startsWith("/en");
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState<
+    "idle" | "loading" | "success" | "error"
+  >("idle");
+  const [message, setMessage] = useState("");
 
-//     try {
-//       const response = await fetch("/api/newsletter", {
-//         method: "POST",
-//         headers: {
-//           "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify({ email }),
-//       });
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
-//       const data = await response.json();
+    if (!email) return;
 
-//       if (response.ok) {
-//         setStatus("success");
-//         setMessage(
-//           currentLang === "fr"
-//             ? "Merci pour votre inscription !"
-//             : "Thanks for subscribing!"
-//         );
-//         setEmail("");
-//       } else {
-//         setStatus("error");
-//         setMessage(
-//           data.error ||
-//             (currentLang === "fr"
-//               ? "Une erreur s'est produite. Veuillez réessayer."
-//               : "An error occurred. Please try again.")
-//         );
-//       }
-//     } catch (error) {
-//       setStatus("error");
-//       setMessage(
-//         currentLang === "fr"
-//           ? "Une erreur s'est produite. Veuillez réessayer."
-//           : "An error occurred. Please try again."
-//       );
-//     }
-//   };
+    // Simuler l'envoi de l'email
+    try {
+      setStatus("loading");
 
-//   return (
-//     <div className="w-full">
-//       <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
-//         <div className="relative flex-grow">
-//           <input
-//             type="email"
-//             value={email}
-//             onChange={(e) => setEmail(e.target.value)}
-//             placeholder={
-//               currentLang === "fr"
-//                 ? "Votre adresse email"
-//                 : "Your email address"
-//             }
-//             required
-//             className="w-full px-4 py-3 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition"
-//           />
-//         </div>
-//         <Button
-//           type="submit"
-//           disabled={status === "loading"}
-//           className="sm:w-auto"
-//         >
-//           {status === "loading" ? (
-//             <>
-//               <svg
-//                 className="animate-spin -ml-1 mr-2 h-4 w-4"
-//                 xmlns="http://www.w3.org/2000/svg"
-//                 fill="none"
-//                 viewBox="0 0 24 24"
-//               >
-//                 <circle
-//                   className="opacity-25"
-//                   cx="12"
-//                   cy="12"
-//                   r="10"
-//                   stroke="currentColor"
-//                   strokeWidth="4"
-//                 ></circle>
-//                 <path
-//                   className="opacity-75"
-//                   fill="currentColor"
-//                   d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-//                 ></path>
-//               </svg>
-//               {currentLang === "fr" ? "Envoi..." : "Sending..."}
-//             </>
-//           ) : currentLang === "fr" ? (
-//             "S'abonner"
-//           ) : (
-//             "Subscribe"
-//           )}
-//         </Button>
-//       </form>
+      // Ici, on simulerait l'envoi à une API
+      // const response = await fetch('/api/newsletter', { method: 'POST', body: JSON.stringify({ email }) });
 
-//       {status === "success" || status === "error" ? (
-//         <p
-//           className={`mt-3 text-sm ${
-//             status === "error" ? "text-red-500" : "text-green-500"
-//           }`}
-//         >
-//           {message}
-//         </p>
-//       ) : null}
-//     </div>
-//   );
-// }
+      // Simulation d'une attente (à remplacer par votre vrai appel API)
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      // Simulation de succès
+      setStatus("success");
+      setMessage(
+        isEnglishPath
+          ? "Thank you for subscribing to our newsletter!"
+          : "Merci de vous être inscrit à notre newsletter !"
+      );
+      setEmail("");
+
+      // En cas d'utilisation réelle, vous traiteriez la réponse ici
+    } catch (error) {
+      setStatus("error");
+      setMessage(
+        isEnglishPath
+          ? "An error occurred. Please try again."
+          : "Une erreur est survenue. Veuillez réessayer."
+      );
+    }
+  };
+
+  return (
+    <div className={cn("w-full max-w-md mx-auto", className)}>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="flex flex-col sm:flex-row gap-3">
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder={isEnglishPath ? "Your email" : "Votre email"}
+            required
+            disabled={status === "loading"}
+            className="flex-1 px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary"
+          />
+          <button
+            type="submit"
+            disabled={status === "loading"}
+            className="px-5 py-3 bg-primary text-white font-medium rounded-lg hover:bg-primary/90 transition-colors disabled:opacity-70 flex items-center justify-center"
+          >
+            {status === "loading" ? (
+              <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />
+            ) : null}
+            {isEnglishPath ? "Subscribe" : "S'abonner"}
+          </button>
+        </div>
+
+        {status === "success" && (
+          <p className="text-sm text-green-600 dark:text-green-400">
+            {message}
+          </p>
+        )}
+
+        {status === "error" && (
+          <p className="text-sm text-red-600 dark:text-red-400">{message}</p>
+        )}
+
+        <p className="text-xs text-gray-500 dark:text-gray-400">
+          {isEnglishPath
+            ? "By subscribing, you agree to receive updates from Acelest Blog."
+            : "En vous inscrivant, vous acceptez de recevoir des mises à jour du Blog Acelest."}
+        </p>
+      </form>
+    </div>
+  );
+}

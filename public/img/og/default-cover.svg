@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#1e293b" />
+  <rect x="50" y="50" width="1100" height="530" fill="#0f172a" rx="10" ry="10" />
+  <g fill="#3b82f6" opacity="0.8">
+    <circle cx="300" cy="315" r="150" opacity="0.2" />
+    <circle cx="900" cy="315" r="150" opacity="0.2" />
+    <circle cx="600" cy="215" r="100" opacity="0.3" />
+    <circle cx="600" cy="415" r="100" opacity="0.3" />
+  </g>
+  <text x="600" y="315" font-family="system-ui, -apple-system, sans-serif" font-size="72" font-weight="700" text-anchor="middle" fill="#e2e8f0">Acelest Blog</text>
+  <text x="600" y="375" font-family="system-ui, -apple-system, sans-serif" font-size="30" font-weight="400" text-anchor="middle" fill="#94a3b8">Développement web et technologies modernes</text>
+</svg>

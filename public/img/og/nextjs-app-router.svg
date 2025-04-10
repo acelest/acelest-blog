@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#000000" />
+  <g transform="translate(400, 250) scale(1.5)">
+    <path d="M166.454 131.973L113.318 58.001H169.095L221.235 131.973L169.295 205.746H113.718L166.454 131.973Z" fill="white"/>
+    <path d="M88.0179 58.0011L140.158 131.973L88.0179 205.746H32.9419L85.0823 131.973L32.9419 58.0011H88.0179Z" fill="white"/>
+  </g>
+  <text x="600" y="520" font-family="system-ui, -apple-system, sans-serif" font-size="72" font-weight="700" text-anchor="middle" fill="#e2e8f0">Next.js App Router</text>
+  <text x="600" y="580" font-family="system-ui, -apple-system, sans-serif" font-size="32" font-weight="400" text-anchor="middle" fill="#94a3b8">Nouvelle architecture de routage</text>
+</svg>
