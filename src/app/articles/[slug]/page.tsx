@@ -1,5 +1,4 @@
 import { getArticleBySlug, getArticleSlugs } from "@/app/lib/articles";
-import Footer from "@/components/Footer";
 import MarkdownRenderer from "@/components/MarkdownRenderer";
 import NavBar from "@/components/NavBar";
 import { markdownToHtml } from "@/lib/markdown";
@@ -160,7 +159,7 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
           )}
         </div>
 
-        <Footer />
+        {/* <Footer /> */}
       </main>
     );
   } catch (error) {

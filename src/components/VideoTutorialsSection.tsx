@@ -85,9 +85,9 @@ export default function VideoTutorialsSection({
           {filteredTutorials.map((tutorial) => (
             <div
               key={tutorial.id}
-              className="overflow-hidden border-0 hover:shadow-md transition-shadow duration-300"
+              className="overflow-hidden border border-gray-200 dark:border-gray-800 rounded-xl hover:shadow-md transition duration-300"
             >
-              <div className="relative pt-[56.25%] w-full rounded-xl overflow-hidden">
+              <div className="relative pt-[56.25%] w-full rounded-t-xl overflow-hidden">
                 <iframe
                   src={`https://www.youtube.com/embed/${tutorial.youtubeId}`}
                   title={tutorial.title}
@@ -97,7 +97,7 @@ export default function VideoTutorialsSection({
                   className="absolute top-0 left-0 w-full h-full"
                 />
               </div>
-              <div className="py-4 px-1">
+              <div className="py-4 px-4">
                 <span className="inline-block px-3 py-1 text-xs font-medium bg-green-100 dark:bg-green-900/40 text-green-800 dark:text-green-300 rounded-full mb-3">
                   {tutorial.category}
                 </span>
