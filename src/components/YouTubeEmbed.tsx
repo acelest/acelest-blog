@@ -13,6 +13,7 @@ interface YouTubeEmbedProps {
 /**
  * Composant pour intégrer une vidéo YouTube de manière optimisée
  * Utilise l'API YouTube iframe et charge la vidéo uniquement lorsqu'elle est visible
+ * Utilise youtube-nocookie.com pour une meilleure confidentialité
  */
 export default function YouTubeEmbed({
   videoId,
@@ -25,6 +26,20 @@ export default function YouTubeEmbed({
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
+    // Supprime les erreurs liées aux log_event bloqués par les adblockers
+    const originalConsoleError = console.error;
+    console.error = (...args) => {
+      // Filtre les erreurs liées aux requêtes youtube bloquées
+      const errorString = args.join(" ");
+      if (
+        errorString.includes("ERR_BLOCKED_BY_CLIENT") &&
+        errorString.includes("youtubei/v1/log_event")
+      ) {
+        return; // Ignore ces erreurs spécifiques
+      }
+      originalConsoleError(...args);
+    };
+
     // Charge l'API YouTube iframe de façon différée
     const loadYouTubeApi = () => {
       if (!window.YT) {
@@ -54,6 +69,7 @@ export default function YouTubeEmbed({
 
     return () => {
       observer.disconnect();
+      console.error = originalConsoleError; // Restaure la fonction d'origine
     };
   }, [isLoaded, videoId]);
 
@@ -66,7 +82,7 @@ export default function YouTubeEmbed({
         <iframe
           width={width}
           height={height}
-          src={`https://www.youtube.com/embed/${videoId}?enablejsapi=1`}
+          src={`https://www.youtube-nocookie.com/embed/${videoId}?enablejsapi=1`}
           title={title}
           frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

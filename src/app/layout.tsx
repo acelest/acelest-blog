@@ -1,4 +1,5 @@
 import { DiscordButton } from "@/components/DiscordButton";
+import Footer from "@/components/Footer";
 import { ThemeProvider } from "@/components/theme-provider";
 import "@/styles/markdown.css"; // Import du CSS pour les articles Markdown
 import "@/styles/prism.css";
@@ -30,7 +31,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background dark:bg-black text-foreground flex flex-col min-h-screen`}
       >
         <ThemeProvider
           attribute="class"
@@ -38,8 +39,11 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
-          <DiscordButton />
+          <div className="flex flex-col min-h-screen">
+            {children}
+            <Footer />
+            <DiscordButton />
+          </div>
         </ThemeProvider>
       </body>
     </html>
