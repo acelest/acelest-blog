@@ -39,8 +39,8 @@ export default function Home() {
     <main className="flex min-h-screen flex-col items-center">
       <NavBar />
 
-      {/* Section Hero */}
-      <section className="w-full min-h-[80vh] mt-10 px-4 md:px-6 flex flex-col items-center justify-center relative">
+      {/* Section Hero - hauteur réduite de 80vh à 60vh */}
+      <section className="w-full min-h-[60vh] mt-10 px-4 md:px-6 flex flex-col items-center justify-center relative">
         <div className="absolute inset-0 grid-background dark:opacity-25 opacity-20"></div>
         <LineShadowTextDemo />
       </section>

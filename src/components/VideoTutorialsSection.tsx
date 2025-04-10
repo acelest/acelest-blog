@@ -71,7 +71,7 @@ export default function VideoTutorialsSection({
               className={cn(
                 "px-4 py-2 rounded-full text-sm font-medium transition-all duration-200",
                 activeCategory === category
-                  ? "bg-primary text-white shadow-md"
+                  ? "bg-green-600 dark:bg-green-700 text-white shadow-md"
                   : "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
               )}
             >
@@ -85,9 +85,9 @@ export default function VideoTutorialsSection({
           {filteredTutorials.map((tutorial) => (
             <div
               key={tutorial.id}
-              className="bg-white dark:bg-gray-900 rounded-xl overflow-hidden shadow-sm border border-gray-200 dark:border-gray-800 hover:shadow-md transition-shadow duration-300"
+              className="overflow-hidden border-0 hover:shadow-md transition-shadow duration-300"
             >
-              <div className="relative pt-[56.25%] w-full">
+              <div className="relative pt-[56.25%] w-full rounded-xl overflow-hidden">
                 <iframe
                   src={`https://www.youtube.com/embed/${tutorial.youtubeId}`}
                   title={tutorial.title}
@@ -97,8 +97,8 @@ export default function VideoTutorialsSection({
                   className="absolute top-0 left-0 w-full h-full"
                 />
               </div>
-              <div className="p-5">
-                <span className="inline-block px-3 py-1 text-xs font-medium bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-full mb-3">
+              <div className="py-4 px-1">
+                <span className="inline-block px-3 py-1 text-xs font-medium bg-green-100 dark:bg-green-900/40 text-green-800 dark:text-green-300 rounded-full mb-3">
                   {tutorial.category}
                 </span>
                 <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-gray-100">
@@ -111,7 +111,7 @@ export default function VideoTutorialsSection({
                   href={`https://www.youtube.com/watch?v=${tutorial.youtubeId}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center mt-4 text-primary hover:text-primary/80 text-sm font-medium transition-colors"
+                  className="inline-flex items-center mt-4 text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300 text-sm font-medium transition-colors"
                 >
                   {isEnglishPath ? "Watch on YouTube" : "Regarder sur YouTube"}
                   <svg

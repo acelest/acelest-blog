@@ -63,7 +63,7 @@ export default function BlogOverviewSection({
   };
 
   return (
-    <section className={cn("py-16 bg-gray-50 dark:bg-gray-900/30", className)}>
+    <section className={cn("py-16", className)}>
       <div className="container px-4 mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16">
           {/* Colonne gauche: Derniers articles */}

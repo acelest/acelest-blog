@@ -122,7 +122,7 @@ export function LineShadowTextDemo() {
   }
 
   return (
-    <div className="flex flex-col items-center text-center gap-6 w-full max-w-5xl mx-auto -mt-40">
+    <div className="flex flex-col items-center text-center gap-6 w-full max-w-5xl mx-auto -mt-20">
       <h1 className="text-balance text-5xl font-bold leading-none tracking-tighter sm:text-6xl md:text-7xl lg:text-8xl">
         {isEnglishPath ? "Acelest " : "ACELEST "}{" "}
         <LineShadowText className="italic" shadowColor={shadowColor}>

@@ -10,12 +10,6 @@ import NewsletterForm from "./NewsletterForm";
  * Placée juste avant le footer
  */
 
-interface SocialLinkProps {
-  href: string;
-  icon: React.ReactNode;
-  label: string;
-}
-
 const socialLinks = [
   {
     href: "https://github.com/acelest",
@@ -101,32 +95,12 @@ const socialLinks = [
   },
 ];
 
-const SocialLink = ({ href, icon, label }: SocialLinkProps) => (
-  <Link
-    href={href}
-    target="_blank"
-    rel="noopener noreferrer"
-    className="group flex flex-col items-center gap-2"
-  >
-    <motion.div
-      whileHover={{ scale: 1.1 }}
-      whileTap={{ scale: 0.95 }}
-      className="flex items-center justify-center w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-primary hover:text-white dark:hover:bg-primary dark:hover:text-white transition-colors duration-200"
-    >
-      {icon}
-    </motion.div>
-    <span className="text-sm text-gray-600 dark:text-gray-400 group-hover:text-primary dark:group-hover:text-primary transition-colors">
-      {label}
-    </span>
-  </Link>
-);
-
 export default function SocialAndNewsletterSection() {
   const pathname = usePathname();
   const isEnglishPath = pathname.startsWith("/en");
 
   return (
-    <section className="py-16 bg-gray-50 dark:bg-gray-900/50">
+    <section className="py-16">
       <div className="container px-4 mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           {/* Section Réseaux Sociaux */}
@@ -145,18 +119,30 @@ export default function SocialAndNewsletterSection() {
             {/* Grille de liens sociaux */}
             <div className="grid grid-cols-3 sm:grid-cols-5 gap-6">
               {socialLinks.map((link) => (
-                <SocialLink
+                <Link
                   key={link.label}
                   href={link.href}
-                  icon={link.icon}
-                  label={link.label}
-                />
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex flex-col items-center gap-2"
+                >
+                  <motion.div
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="flex items-center justify-center w-12 h-12 rounded-full border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:border-green-500 hover:text-green-600 dark:hover:border-green-500 dark:hover:text-green-400 transition-colors duration-200"
+                  >
+                    {link.icon}
+                  </motion.div>
+                  <span className="text-sm text-gray-600 dark:text-gray-400 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">
+                    {link.label}
+                  </span>
+                </Link>
               ))}
             </div>
           </div>
 
           {/* Section Newsletter */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8">
+          <div className="border border-gray-200 dark:border-gray-800 rounded-xl p-8">
             <div className="text-center mb-6">
               <h2 className="text-2xl md:text-3xl font-bold mb-3 text-gray-900 dark:text-gray-100">
                 {isEnglishPath

@@ -63,12 +63,12 @@ export default function NewsletterForm({ className }: NewsletterFormProps) {
             placeholder={isEnglishPath ? "Your email" : "Votre email"}
             required
             disabled={status === "loading"}
-            className="flex-1 px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary"
+            className="flex-1 px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-transparent text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-green-500 dark:focus:ring-green-400 focus:border-green-500 dark:focus:border-green-400"
           />
           <button
             type="submit"
             disabled={status === "loading"}
-            className="px-5 py-3 bg-primary text-white font-medium rounded-lg hover:bg-primary/90 transition-colors disabled:opacity-70 flex items-center justify-center"
+            className="px-5 py-3 bg-green-600 dark:bg-green-700 text-white font-medium rounded-lg hover:bg-green-700 dark:hover:bg-green-600 transition-colors disabled:opacity-70 flex items-center justify-center"
           >
             {status === "loading" ? (
               <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />
