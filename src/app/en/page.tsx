@@ -1,5 +1,23 @@
 import NavBar from "@/components/NavBar";
 import { LineShadowTextDemo } from "@/components/TextHero";
+import { generateMetadata } from "@/lib/metadata";
+import { Metadata } from "next";
+
+export const metadata: Metadata = generateMetadata({
+  title: "Home",
+  description:
+    "Discover tutorials, tips and best practices about web development, React, Next.js and modern technologies.",
+  keywords: [
+    "web development",
+    "react",
+    "next.js",
+    "javascript",
+    "tutorials",
+    "tech blog",
+  ],
+  pathname: "/",
+  locale: "en",
+});
 
 export default function EnglishHome() {
   return (
