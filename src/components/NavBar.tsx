@@ -189,11 +189,11 @@ export default function NavBar() {
       className={cn(
         "fixed w-full top-0 z-50 transition-all duration-300",
         isScrolled
-          ? "bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm shadow-md py-2"
+          ? "bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm shadow-md py-2"
           : "bg-transparent py-4"
       )}
     >
-      <div className="container mx-auto px-4 md:px-6">
+      <div className="container mx-auto px-4 md:px-6 relative z-10">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link
@@ -701,6 +701,9 @@ export default function NavBar() {
           </nav>
         </div>
       </div>
+
+      {/* Overlay pour la grille qui apparaît en dessous de la navbar */}
+      <div className="absolute inset-0 -z-10 grid-background dark:opacity-25 opacity-20"></div>
     </header>
   );
 }

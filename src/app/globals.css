@@ -41,6 +41,12 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  --animate-gradient: gradient 8s linear infinite;
+  @keyframes gradient {
+  to {
+    backgroundPosition: var(--bg-size, 300%) 0;
+    }
+  }
 }
 
 :root {
@@ -174,6 +180,27 @@
   50% {
     opacity: 0;
   }
+}
+
+/* Effet de grille en arrière-plan */
+.grid-background {
+  background-size: 30px 30px;
+  background-image: linear-gradient(
+      to right,
+      var(--border) 1.5px,
+      transparent 1.5px
+    ),
+    linear-gradient(to bottom, var(--border) 1.5px, transparent 1.5px);
+  z-index: -1;
+}
+
+.dark .grid-background {
+  background-image: linear-gradient(
+      to right,
+      oklch(1 0 0 / 18%) 1.5px,
+      transparent 1.5px
+    ),
+    linear-gradient(to bottom, oklch(1 0 0 / 18%) 1.5px, transparent 1.5px);
 }
 
 @layer utilities {
