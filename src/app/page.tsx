@@ -1,4 +1,4 @@
-import { getFeaturedArticles, getRecentArticles } from "@/app/lib/articles";
+import { getRecentArticles } from "@/app/lib/articles";
 import { AppleCardsCarouselDemo } from "@/components/AppleCardsCarouselDemo";
 import BlogOverviewSection, {
   demoTutorials,
@@ -29,19 +29,11 @@ export const metadata: Metadata = generateMetadata({
 });
 
 export default function Home() {
-  // Récupération des articles à partir de notre collection d'articles markdown
-  const featuredArticles = getFeaturedArticles(2).map((article) => ({
+  // N'afficher que 4 articles récents maximum sur la page d'accueil
+  const recentArticles = getRecentArticles(4).map((article) => ({
     ...article,
     coverImage: article.coverImage || "/img/og/default-cover.jpg",
   }));
-
-  const recentArticles = getRecentArticles(2).map((article) => ({
-    ...article,
-    coverImage: article.coverImage || "/img/og/default-cover.jpg",
-  }));
-
-  // Articles supplémentaires pour la section BlogOverviewSection
-  const blogOverviewArticles = getRecentArticles(5);
 
   return (
     <main className="flex min-h-screen flex-col items-center">
@@ -55,7 +47,7 @@ export default function Home() {
 
       {/* Section Overview en deux colonnes (articles + tutoriels) */}
       <BlogOverviewSection
-        articles={blogOverviewArticles}
+        articles={recentArticles}
         tutorials={demoTutorials}
       />
 

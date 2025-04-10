@@ -1,7 +1,7 @@
 ---
 title: "Les nouvelles fonctionnalités de Next.js 14 à connaître absolument"
 excerpt: "Explorez les innovations majeures de Next.js 14, les améliorations de performance et les nouvelles API qui transforment l'expérience de développement React."
-coverImage: "/img/og/nextjs-14.jpg"
+coverImage: "/img/og/nextjs-app-router.svg"
 date: "2025-03-15"
 author: "Acelest"
 readingTime: "10 min"
