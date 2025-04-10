@@ -3,9 +3,11 @@
 import { Article } from "@/app/lib/articles";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, Youtube } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import YouTubeEmbed, { getYouTubeVideoId } from "./YouTubeEmbed";
+import { Button } from "./ui/button";
 
 /**
  * Composant BlogOverviewSection
@@ -16,22 +18,25 @@ import { usePathname } from "next/navigation";
  *        - Date (petite taille, gris clair)
  *        - Titre de l'article en gras
  *        - Petite description en dessous
- *    - Style inspiré de shadcn/ui : sobre, élégant, espacé juste comme il faut
  *
  * - Colonne de droite : "Tutoriels"
  *    - Titre clair "Tutoriels"
- *    - Liste verticale de tutoriels (avec →)
- *    - Chaque item est cliquable
- *    - Texte lisible, hiérarchisé, espacé
+ *    - Liste verticale de tutoriels
+ *      Chaque item affiche :
+ *        - Une miniature de la vidéo YouTube (taille max adaptée)
+ *        - Le titre du tutoriel
+ *        - Un chevron pour indiquer le lien
  *
  * Utilise `grid` avec Tailwind CSS pour faire le layout en deux colonnes bien espacées.
- * Design global sombre, responsive, et minimaliste.
+ * Design global sobre, responsive et minimaliste.
  */
 
 interface Tutorial {
   id: string;
   title: string;
   slug: string;
+  thumbnail: string;
+  youtubeUrl: string; // Ajout du lien YouTube
 }
 
 interface BlogOverviewSectionProps {
@@ -114,39 +119,50 @@ export default function BlogOverviewSection({
             </h2>
 
             <div className="space-y-2">
-              {tutorials.map((tutorial, index) => (
-                <motion.div
-                  key={tutorial.id}
-                  initial={{ opacity: 0, x: 10 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.3, delay: index * 0.1 }}
-                >
-                  <Link
-                    href={`${isEnglishPath ? "/en" : ""}/tutorials/${
-                      tutorial.slug
-                    }`}
-                    className="group flex items-center justify-between py-3 px-4 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800/50 transition-colors"
+              {tutorials.map((tutorial, index) => {
+                const videoId = getYouTubeVideoId(tutorial.youtubeUrl);
+                return (
+                  <motion.div
+                    key={tutorial.id}
+                    initial={{ opacity: 0, x: 10 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.3, delay: index * 0.1 }}
+                    className="mb-4"
                   >
-                    <span className="font-medium text-gray-800 dark:text-gray-200 group-hover:text-primary transition-colors">
-                      {tutorial.title}
-                    </span>
-                    <ChevronRight className="h-4 w-4 text-gray-400 group-hover:text-primary group-hover:translate-x-0.5 transition-all" />
-                  </Link>
-                </motion.div>
-              ))}
+                    <div className="group">
+                      <h3 className="font-medium text-gray-800 dark:text-gray-200 mb-2">
+                        {tutorial.title}
+                      </h3>
+                      {videoId && (
+                        <YouTubeEmbed
+                          videoId={videoId}
+                          title={tutorial.title}
+                          className="w-full rounded-lg overflow-hidden"
+                        />
+                      )}
+                    </div>
+                  </motion.div>
+                );
+              })}
             </div>
 
             <div className="pt-4">
-              <Link
-                href={`${isEnglishPath ? "/en" : ""}/tutorials`}
-                className="inline-flex items-center text-sm font-medium text-primary hover:text-primary/80 transition-colors"
+              <Button
+                asChild
+                className="bg-red-600 hover:bg-red-700 text-white transition-all duration-300 hover:scale-105 shadow-md hover:shadow-lg"
               >
-                {isEnglishPath
-                  ? "Browse all tutorials"
-                  : "Parcourir tous les tutoriels"}
-                <ChevronRight className="ml-1 h-4 w-4" />
-              </Link>
+                <Link
+                  href="https://www.youtube.com/@ACELESTDEV"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {isEnglishPath
+                    ? "Visit our YouTube Channel"
+                    : "Visitez notre chaîne YouTube"}
+                  <Youtube className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
             </div>
           </div>
         </div>
@@ -155,31 +171,20 @@ export default function BlogOverviewSection({
   );
 }
 
-// Données de démonstration pour les tutoriels
+// Données de démonstration pour les tutoriels (2 vidéos)
 export const demoTutorials: Tutorial[] = [
   {
     id: "1",
     title: "Créer un blog avec Next.js et Tailwind CSS",
     slug: "creer-blog-nextjs-tailwind",
+    thumbnail: "/img/og/web-dev-guide.jpg",
+    youtubeUrl: "https://www.youtube.com/watch?v=s1MUcxO-x8Q",
   },
   {
     id: "2",
     title: "Maîtriser les hooks React pour les débutants",
     slug: "maitriser-hooks-react-debutants",
-  },
-  {
-    id: "3",
-    title: "Animations fluides avec Framer Motion",
-    slug: "animations-fluides-framer-motion",
-  },
-  {
-    id: "4",
-    title: "Créer une API REST avec Node.js",
-    slug: "creer-api-rest-nodejs",
-  },
-  {
-    id: "5",
-    title: "Authentification moderne avec NextAuth.js",
-    slug: "authentification-moderne-nextauth",
+    thumbnail: "/img/og/web-dev-guide.jpg",
+    youtubeUrl: "https://www.youtube.com/watch?v=TNhaISOUy6Q",
   },
 ];

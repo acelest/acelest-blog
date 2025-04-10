@@ -30,12 +30,12 @@ export const metadata: Metadata = generateMetadata({
 
 export default function Home() {
   // Récupération des articles à partir de notre collection d'articles markdown
-  const featuredArticles = getFeaturedArticles(5).map((article) => ({
+  const featuredArticles = getFeaturedArticles(2).map((article) => ({
     ...article,
     coverImage: article.coverImage || "/img/og/default-cover.jpg",
   }));
 
-  const recentArticles = getRecentArticles(3).map((article) => ({
+  const recentArticles = getRecentArticles(2).map((article) => ({
     ...article,
     coverImage: article.coverImage || "/img/og/default-cover.jpg",
   }));
