@@ -14,7 +14,7 @@ export type Article = {
   coverImage?: string;
   category?: string;
   author?: string;
-  [key: string]: string | string[] | undefined; // Ajout d'une signature d'index pour permettre l'accès dynamique
+  [key: string]: string | string[] | undefined; // Signature d'index avec des types spécifiques
 };
 
 const articlesDirectory = path.join(
