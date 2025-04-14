@@ -16,7 +16,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   try {
     // Get article data
-    const article = getArticleBySlug(params.slug, [
+    const article = await getArticleBySlug(params.slug, [
       "title",
       "excerpt",
       "coverImage",
@@ -50,14 +50,18 @@ export async function generateMetadata({
 
 // Generate static routes for all articles
 export async function generateStaticParams() {
-  const slugs = getArticleSlugs();
+  const slugs = await getArticleSlugs();
   return slugs.map((slug) => ({ slug }));
 }
 
-export default function ArticlePage({ params }: { params: { slug: string } }) {
+export default async function ArticlePage({
+  params,
+}: {
+  params: { slug: string };
+}) {
   try {
     // Get article data
-    const article = getArticleBySlug(params.slug, [
+    const article = await getArticleBySlug(params.slug, [
       "title",
       "date",
       "content",

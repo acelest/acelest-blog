@@ -16,7 +16,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   try {
     // Récupérer les données de l'article
-    const article = getArticleBySlug(params.slug, [
+    const article = await getArticleBySlug(params.slug, [
       "title",
       "excerpt",
       "coverImage",
@@ -50,14 +50,18 @@ export async function generateMetadata({
 
 // Générer les routes statiques pour tous les articles
 export async function generateStaticParams() {
-  const slugs = getArticleSlugs();
+  const slugs = await getArticleSlugs();
   return slugs.map((slug) => ({ slug }));
 }
 
-export default function ArticlePage({ params }: { params: { slug: string } }) {
+export default async function ArticlePage({
+  params,
+}: {
+  params: { slug: string };
+}) {
   try {
     // Récupérer les données de l'article pour l'affichage
-    const article = getArticleBySlug(params.slug, [
+    const article = await getArticleBySlug(params.slug, [
       "title",
       "date",
       "content",

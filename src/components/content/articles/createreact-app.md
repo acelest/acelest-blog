@@ -1,7 +1,7 @@
 ---
 title: "Comment créer une application React en 2025"
 excerpt: "Guide pratique pour configurer et démarrer une application React moderne avec les meilleures pratiques et outils de 2025."
-coverImage: "/img/og/react-hooks.svg"
+coverImage: "/img/og/react-hooks.png"
 date: "2025-04-05"
 author: "Acelest"
 readingTime: "10 min"

@@ -82,7 +82,7 @@ export default function BlogOverviewSection({
                   transition={{ duration: 0.5 }}
                 >
                   <Link
-                    href={`${isEnglishPath ? "/en" : ""}/articles/${
+                    href={`${isEnglishPath ? "/en" : ""}/articles/post/${
                       article.slug
                     }`}
                     className="group block"

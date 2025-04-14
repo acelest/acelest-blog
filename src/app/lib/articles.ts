@@ -24,12 +24,29 @@ const articlesDirectory = path.join(
   "src/components/content/articles"
 );
 
+const englishArticlesDirectory = path.join(
+  process.cwd(),
+  "src/components/content/articles/en"
+);
+
 // Obtenir tous les slugs des articles
-export async function getArticleSlugs(): Promise<string[]> {
-  return fs
-    .readdirSync(articlesDirectory)
-    .filter((file) => file.endsWith(".md"))
-    .map((file) => file.replace(/\.md$/, ""));
+export async function getArticleSlugs(
+  locale: string = "fr"
+): Promise<string[]> {
+  const directory =
+    locale === "en" ? englishArticlesDirectory : articlesDirectory;
+
+  if (locale === "fr") {
+    return fs
+      .readdirSync(articlesDirectory)
+      .filter((file) => file.endsWith(".md") && file !== "en")
+      .map((file) => file.replace(/\.md$/, ""));
+  } else {
+    return fs
+      .readdirSync(englishArticlesDirectory)
+      .filter((file) => file.endsWith(".md"))
+      .map((file) => file.replace(/\.md$/, ""));
+  }
 }
 
 // Estimation du temps de lecture
@@ -43,10 +60,17 @@ function calculateReadingTime(content: string): string {
 // Récupérer un article par son slug
 export async function getArticleBySlug(
   slug: string,
-  fields: string[] = []
+  fields: string[] = [],
+  locale: string = "fr"
 ): Promise<Article> {
   const realSlug = slug.replace(/\.md$/, "");
-  const fullPath = path.join(articlesDirectory, `${realSlug}.md`);
+  let fullPath;
+
+  if (locale === "en") {
+    fullPath = path.join(englishArticlesDirectory, `${realSlug}.md`);
+  } else {
+    fullPath = path.join(articlesDirectory, `${realSlug}.md`);
+  }
 
   const fileContents = fs.readFileSync(fullPath, "utf8");
   const { data, content } = matter(fileContents);
@@ -93,10 +117,13 @@ export async function getAllArticles(
     "tags",
     "readingTime",
     "author",
-  ]
+  ],
+  locale: string = "fr"
 ): Promise<Article[]> {
-  const slugs = await getArticleSlugs();
-  const articlesPromises = slugs.map((slug) => getArticleBySlug(slug, fields));
+  const slugs = await getArticleSlugs(locale);
+  const articlesPromises = slugs.map((slug) =>
+    getArticleBySlug(slug, fields, locale)
+  );
   const articles = await Promise.all(articlesPromises);
   // Trier par date, du plus récent au plus ancien
   return articles.sort((a, b) =>
@@ -116,9 +143,10 @@ export async function getArticlesByCategory(
     "category",
     "tags",
     "readingTime",
-  ]
+  ],
+  locale: string = "fr"
 ): Promise<Article[]> {
-  const articles = await getAllArticles(fields);
+  const articles = await getAllArticles(fields, locale);
   return articles.filter(
     (article) => article.category?.toLowerCase() === category.toLowerCase()
   );
@@ -136,11 +164,12 @@ export async function getFeaturedArticles(
     "category",
     "tags",
     "readingTime",
-  ]
+  ],
+  locale: string = "fr"
 ): Promise<Article[]> {
   // Ici, on prend simplement les articles les plus récents comme "populaires"
   // Dans un cas réel, on pourrait avoir une logique basée sur des vues, des likes, etc.
-  const articles = await getAllArticles(fields);
+  const articles = await getAllArticles(fields, locale);
   return articles.slice(0, limit);
 }
 
@@ -156,16 +185,27 @@ export async function getRecentArticles(
     "category",
     "tags",
     "readingTime",
-  ]
+  ],
+  locale: string = "fr"
 ): Promise<Article[]> {
-  const articles = await getAllArticles(fields);
+  const articles = await getAllArticles(fields, locale);
   return articles.slice(0, limit);
 }
 
 // Vérifier si un slug représente une catégorie ou un article
-export async function isCategory(slug: string): Promise<boolean> {
+export async function isCategory(
+  slug: string,
+  locale: string = "fr"
+): Promise<boolean> {
   // Vérifier si le fichier MD existe pour ce slug
-  const articlePath = path.join(articlesDirectory, `${slug}.md`);
+  let articlePath;
+
+  if (locale === "en") {
+    articlePath = path.join(englishArticlesDirectory, `${slug}.md`);
+  } else {
+    articlePath = path.join(articlesDirectory, `${slug}.md`);
+  }
+
   const articleExists = fs.existsSync(articlePath);
 
   if (articleExists) {
@@ -173,15 +213,17 @@ export async function isCategory(slug: string): Promise<boolean> {
   }
 
   // Vérifier si des articles sont associés à cette catégorie
-  const articles = await getAllArticles(["category"]);
+  const articles = await getAllArticles(["category"], locale);
   return articles.some(
     (article) => article.category?.toLowerCase() === slug.toLowerCase()
   );
 }
 
 // Obtenir toutes les catégories uniques
-export async function getAllCategories(): Promise<string[]> {
-  const articles = await getAllArticles(["category"]);
+export async function getAllCategories(
+  locale: string = "fr"
+): Promise<string[]> {
+  const articles = await getAllArticles(["category"], locale);
 
   // Extraire toutes les catégories uniques
   return Array.from(

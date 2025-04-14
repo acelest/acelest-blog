@@ -7,13 +7,13 @@ export default async function ArticleRedirectPage({
   params: { slug: string };
 }) {
   try {
-    // On vérifie si l'article existe
+    // Check if the article exists
     await getArticleBySlug(params.slug, ["title"]);
 
-    // Si oui, on redirige vers la bonne URL
-    redirect(`/articles/post/${params.slug}`);
+    // If yes, redirect to the correct URL
+    redirect(`/en/articles/post/${params.slug}`);
   } catch (error) {
-    // Si l'article n'existe pas, on redirige vers la page d'articles
-    redirect("/articles");
+    // If the article doesn't exist, redirect to the articles page
+    redirect("/en/articles");
   }
 }

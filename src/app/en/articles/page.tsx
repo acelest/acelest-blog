@@ -17,7 +17,20 @@ export const metadata: Metadata = generateBaseMetadata({
 
 export default async function ArticlesPage() {
   // Get all articles sorted by date (most recent first)
-  const articles = await getAllArticles();
+  const articles = await getAllArticles(
+    [
+      "slug",
+      "title",
+      "date",
+      "excerpt",
+      "coverImage",
+      "category",
+      "tags",
+      "readingTime",
+      "author",
+    ],
+    "en"
+  );
 
   // Group articles by year for chronological display
   const articlesByYear: Record<string, typeof articles> = {};

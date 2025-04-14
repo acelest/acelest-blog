@@ -29,8 +29,23 @@ export const metadata: Metadata = generateMetadata({
 });
 
 export default async function EnglishHome() {
-  // Display max 4 recent articles on the homepage
-  const articlesData = await getRecentArticles(4);
+  // Display max 4 recent articles on the homepage from English articles
+  const articlesData = await getRecentArticles(
+    4,
+    [
+      "slug",
+      "title",
+      "date",
+      "excerpt",
+      "coverImage",
+      "category",
+      "tags",
+      "readingTime",
+      "author",
+    ],
+    "en"
+  );
+
   const recentArticles = articlesData.map((article) => ({
     ...article,
     coverImage: article.coverImage || "/img/og/default-cover.jpg",

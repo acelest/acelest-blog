@@ -1,7 +1,7 @@
 ---
 title: "C'est quoi React? Guide complet pour débutants"
 excerpt: "Découvrez React, la bibliothèque JavaScript qui révolutionne le développement frontend, et apprenez pourquoi tant de développeurs l'adorent."
-coverImage: "/img/og/react-hooks.svg"
+coverImage: "/img/og/react-hooks.png"
 date: "2025-03-25"
 author: "Acelest"
 readingTime: "8 min"
