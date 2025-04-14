@@ -1,5 +1,6 @@
 "use client";
 
+import { getAllCategories } from "@/app/lib/articles";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useTheme } from "next-themes";
@@ -7,6 +8,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { toast } from "sonner";
 import LanguageFlag from "./LanguageFlag";
 
 // Définition du type pour une catégorie
@@ -33,12 +35,23 @@ export default function NavBar() {
   const [isCategoryOpen, setIsCategoryOpen] = useState(false); // Dropdown catégories (desktop & mobile)
   const [isLangOpen, setIsLangOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [availableCategories, setAvailableCategories] = useState<string[]>([]);
   const categoryRef = useRef<HTMLDivElement>(null);
   const langRef = useRef<HTMLDivElement>(null);
 
   // Correction d'hydratation
   useEffect(() => {
     setMounted(true);
+  }, []);
+
+  // Charger les catégories disponibles
+  useEffect(() => {
+    async function loadCategories() {
+      const categories = await getAllCategories();
+      setAvailableCategories(categories);
+    }
+
+    loadCategories();
   }, []);
 
   // Effet de scroll sur la NavBar
@@ -179,7 +192,27 @@ export default function NavBar() {
   // Navigation vers une catégorie
   const handleCategoryClick = (id: string) => {
     const basePath = isEnglishPath ? "/en/articles/" : "/articles/";
-    router.push(`${basePath}${id}`);
+
+    // Vérifier si des articles existent pour cette catégorie
+    if (availableCategories.includes(id.toLowerCase())) {
+      router.push(`${basePath}${id}`);
+    } else {
+      // Afficher un message à l'utilisateur
+      toast.info(
+        isEnglishPath
+          ? "No articles in this category yet. Check out our articles page for other content!"
+          : "Pas encore d'articles dans cette catégorie. Consultez notre page d'articles pour d'autres contenus !",
+        {
+          action: {
+            label: isEnglishPath ? "View articles" : "Voir les articles",
+            onClick: () =>
+              router.push(isEnglishPath ? "/en/articles" : "/articles"),
+          },
+          duration: 5000,
+        }
+      );
+    }
+
     setIsCategoryOpen(false);
     setIsOpen(false);
   };
@@ -703,7 +736,7 @@ export default function NavBar() {
       </div>
 
       {/* Overlay pour la grille qui apparaît en dessous de la navbar */}
-      <div className="absolute inset-0 -z-10 grid-background dark:opacity-25 opacity-20"></div>
+      <div className="absolute inset-0 -z-10 grid-background dark:opacity-30 opacity-25"></div>
     </header>
   );
 }

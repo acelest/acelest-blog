@@ -8,14 +8,14 @@ import { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
-// Générer les métadonnées dynamiquement pour chaque article
+// Generate metadata dynamically for each article
 export async function generateMetadata({
   params,
 }: {
   params: { slug: string };
 }): Promise<Metadata> {
   try {
-    // Récupérer les données de l'article
+    // Get article data
     const article = getArticleBySlug(params.slug, [
       "title",
       "excerpt",
@@ -26,29 +26,29 @@ export async function generateMetadata({
       "date",
     ]);
 
-    // Générer les métadonnées
+    // Generate metadata
     return generateBaseMetadata({
       title: article.title,
       description: article.excerpt,
       keywords: article.tags,
       image: article.coverImage,
-      pathname: `/articles/${params.slug}`,
-      locale: "fr",
+      pathname: `/en/articles/post/${params.slug}`,
+      locale: "en",
       type: "article",
     });
   } catch (error) {
     // Logging the error for debugging purposes
     console.error("Error generating metadata:", error);
-    // En cas d'erreur, retourner des métadonnées par défaut
+    // Default metadata in case of error
     return generateBaseMetadata({
       title: "Article",
-      pathname: `/articles/${params.slug}`,
-      locale: "fr",
+      pathname: `/en/articles/post/${params.slug}`,
+      locale: "en",
     });
   }
 }
 
-// Générer les routes statiques pour tous les articles
+// Generate static routes for all articles
 export async function generateStaticParams() {
   const slugs = getArticleSlugs();
   return slugs.map((slug) => ({ slug }));
@@ -56,7 +56,7 @@ export async function generateStaticParams() {
 
 export default function ArticlePage({ params }: { params: { slug: string } }) {
   try {
-    // Récupérer les données de l'article pour l'affichage
+    // Get article data
     const article = getArticleBySlug(params.slug, [
       "title",
       "date",
@@ -69,25 +69,25 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
       "tags",
     ]);
 
-    // Formater la date
-    const formattedDate = new Date(article.date).toLocaleDateString("fr-FR", {
+    // Format date for English locale
+    const formattedDate = new Date(article.date).toLocaleDateString("en-US", {
       day: "numeric",
       month: "long",
       year: "numeric",
     });
 
-    // Convertir le Markdown en HTML avec notre fonction utilitaire
+    // Convert Markdown to HTML
     const contentHtml = markdownToHtml(article.content);
 
     return (
       <main className="flex min-h-screen flex-col">
         <NavBar />
 
-        {/* Espace entre navbar et contenu */}
+        {/* Space between navbar and content */}
         <div className="mt-20 md:mt-24"></div>
 
         <div className="container max-w-3xl mx-auto px-4 py-12">
-          {/* En-tête de l'article */}
+          {/* Article header */}
           <header className="mb-12 text-center">
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-gray-900 dark:text-gray-100">
               {article.title}
@@ -96,7 +96,7 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
             <div className="flex flex-wrap justify-center items-center gap-2 text-sm text-gray-600 dark:text-gray-400 mb-6">
               <time dateTime={article.date}>{formattedDate}</time>
               <span>•</span>
-              <span>{article.readingTime} de lecture</span>
+              <span>{article.readingTime} read</span>
               {article.category && (
                 <>
                   <span>•</span>
@@ -119,7 +119,7 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
             )}
           </header>
 
-          {/* Image de couverture */}
+          {/* Cover image */}
           {article.coverImage && (
             <div className="mb-12">
               <div className="relative w-full aspect-[16/9] rounded-xl overflow-hidden shadow-lg">
@@ -134,7 +134,7 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
             </div>
           )}
 
-          {/* Contenu principal - avec styles améliorées pour une meilleure lisibilité */}
+          {/* Main content with enhanced styling */}
           <article
             id="article-content"
             className="prose dark:prose-invert markdown-content
@@ -143,14 +143,14 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
             dangerouslySetInnerHTML={{ __html: contentHtml }}
           />
 
-          {/* Composant client qui va améliorer les blocs de code */}
+          {/* Client component for code highlighting */}
           <MarkdownRenderer contentId="article-content" />
 
-          {/* Section auteur */}
+          {/* Author section */}
           {article.author && (
             <div className="mt-16 pt-8 border-t border-gray-200 dark:border-gray-800">
               <p className="text-sm text-gray-500 dark:text-gray-400">
-                Écrit par{" "}
+                Written by{" "}
                 <span className="font-medium text-gray-900 dark:text-gray-200">
                   {article.author}
                 </span>
@@ -158,8 +158,6 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
             </div>
           )}
         </div>
-
-        {/* <Footer /> */}
       </main>
     );
   } catch (error) {

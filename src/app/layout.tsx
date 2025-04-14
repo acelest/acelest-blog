@@ -6,6 +6,7 @@ import "@/styles/prism.css";
 import "highlight.js/styles/github-dark.css";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Toaster } from "sonner";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -39,6 +40,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <Toaster position="top-center" closeButton richColors />
           <div className="flex flex-col min-h-screen">
             {children}
             <Footer />

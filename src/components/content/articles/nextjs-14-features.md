@@ -5,7 +5,7 @@ coverImage: "/img/og/nextjs-app-router.svg"
 date: "2025-03-15"
 author: "Acelest"
 readingTime: "10 min"
-category: "React"
+category: "nextjs"
 tags: ["Next.js", "React", "Frontend", "Server Components", "Performance"]
 slug: "nextjs-14-features"
 ---

@@ -43,17 +43,21 @@
   --radius-xl: calc(var(--radius) + 4px);
   --animate-gradient: gradient 8s linear infinite;
   @keyframes gradient {
-  to {
-    backgroundPosition: var(--bg-size, 300%) 0;
+    to {
+      backgroundposition: var(--bg-size, 300%) 0;
     }
   }
-  --animate-pulse: pulse var(--duration) ease-out infinite
-;
+  --animate-pulse: pulse var(--duration) ease-out infinite;
   @keyframes pulse {
-  0%, 100% {
-    boxShadow: 0 0 0 0 var(--pulse-color);}
-  50% {
-    boxShadow: 0 0 0 8px var(--pulse-color);}}}
+    0%,
+    100% {
+      boxshadow: 0 0 0 0 var(--pulse-color);
+    }
+    50% {
+      boxshadow: 0 0 0 8px var(--pulse-color);
+    }
+  }
+}
 
 :root {
   --radius: 0.625rem;
@@ -193,20 +197,20 @@
   background-size: 30px 30px;
   background-image: linear-gradient(
       to right,
-      var(--border) 1.5px,
-      transparent 1.5px
+      var(--border) 2px,
+      transparent 1px
     ),
-    linear-gradient(to bottom, var(--border) 1.5px, transparent 1.5px);
+    linear-gradient(to bottom, var(--border) 2px, transparent 1px);
   z-index: -1;
 }
 
 .dark .grid-background {
   background-image: linear-gradient(
       to right,
-      oklch(1 0 0 / 18%) 1.5px,
-      transparent 1.5px
+      oklch(1 0 0 / 25%) 2px,
+      transparent 1px
     ),
-    linear-gradient(to bottom, oklch(1 0 0 / 18%) 1.5px, transparent 1.5px);
+    linear-gradient(to bottom, oklch(1 0 0 / 25%) 2px, transparent 1px);
 }
 
 @layer utilities {

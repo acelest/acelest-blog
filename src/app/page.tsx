@@ -28,9 +28,10 @@ export const metadata: Metadata = generateMetadata({
   locale: "fr",
 });
 
-export default function Home() {
+export default async function Home() {
   // N'afficher que 4 articles récents maximum sur la page d'accueil
-  const recentArticles = getRecentArticles(4).map((article) => ({
+  const articlesData = await getRecentArticles(4);
+  const recentArticles = articlesData.map((article) => ({
     ...article,
     coverImage: article.coverImage || "/img/og/default-cover.jpg",
   }));
@@ -41,7 +42,7 @@ export default function Home() {
 
       {/* Section Hero - hauteur réduite de 80vh à 60vh */}
       <section className="w-full min-h-[60vh] mt-10 px-4 md:px-6 flex flex-col items-center justify-center relative">
-        <div className="absolute inset-0 grid-background dark:opacity-25 opacity-20"></div>
+        <div className="absolute inset-0 grid-background dark:opacity-30 opacity-25"></div>
         <LineShadowTextDemo />
       </section>
 

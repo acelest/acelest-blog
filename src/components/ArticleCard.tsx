@@ -128,7 +128,7 @@ export default function ArticleCard({
           </div>
 
           <Link
-            href={`${isEnglishPath ? "/en" : ""}/articles/${article.slug}`}
+            href={`${isEnglishPath ? "/en" : ""}/articles/post/${article.slug}`}
             className="group-hover:opacity-100 block"
           >
             <h3 className="text-xl font-semibold leading-tight text-gray-900 dark:text-gray-100 group-hover:text-primary dark:group-hover:text-primary transition-colors">
@@ -142,7 +142,7 @@ export default function ArticleCard({
 
         <div className="mt-6 flex justify-between items-center">
           <Link
-            href={`${isEnglishPath ? "/en" : ""}/articles/${article.slug}`}
+            href={`${isEnglishPath ? "/en" : ""}/articles/post/${article.slug}`}
             className="inline-flex items-center gap-1 text-sm font-medium text-primary hover:text-primary/80 transition-colors"
           >
             {isEnglishPath ? "Read more" : "Lire la suite"}

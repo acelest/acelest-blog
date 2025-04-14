@@ -1,3 +1,5 @@
+"use server";
+
 import fs from "fs";
 import matter from "gray-matter";
 import path from "path";
@@ -23,7 +25,7 @@ const articlesDirectory = path.join(
 );
 
 // Obtenir tous les slugs des articles
-export function getArticleSlugs(): string[] {
+export async function getArticleSlugs(): Promise<string[]> {
   return fs
     .readdirSync(articlesDirectory)
     .filter((file) => file.endsWith(".md"))
@@ -39,7 +41,10 @@ function calculateReadingTime(content: string): string {
 }
 
 // Récupérer un article par son slug
-export function getArticleBySlug(slug: string, fields: string[] = []): Article {
+export async function getArticleBySlug(
+  slug: string,
+  fields: string[] = []
+): Promise<Article> {
   const realSlug = slug.replace(/\.md$/, "");
   const fullPath = path.join(articlesDirectory, `${realSlug}.md`);
 
@@ -77,7 +82,7 @@ export function getArticleBySlug(slug: string, fields: string[] = []): Article {
 }
 
 // Récupérer tous les articles
-export function getAllArticles(
+export async function getAllArticles(
   fields: string[] = [
     "slug",
     "title",
@@ -89,18 +94,18 @@ export function getAllArticles(
     "readingTime",
     "author",
   ]
-): Article[] {
-  const slugs = getArticleSlugs();
-  const articles = slugs
-    .map((slug) => getArticleBySlug(slug, fields))
-    // Trier par date, du plus récent au plus ancien
-    .sort((a, b) => (new Date(a.date) > new Date(b.date) ? -1 : 1));
-
-  return articles;
+): Promise<Article[]> {
+  const slugs = await getArticleSlugs();
+  const articlesPromises = slugs.map((slug) => getArticleBySlug(slug, fields));
+  const articles = await Promise.all(articlesPromises);
+  // Trier par date, du plus récent au plus ancien
+  return articles.sort((a, b) =>
+    new Date(a.date) > new Date(b.date) ? -1 : 1
+  );
 }
 
 // Récupérer les articles par catégorie
-export function getArticlesByCategory(
+export async function getArticlesByCategory(
   category: string,
   fields: string[] = [
     "slug",
@@ -112,15 +117,15 @@ export function getArticlesByCategory(
     "tags",
     "readingTime",
   ]
-): Article[] {
-  const articles = getAllArticles(fields);
+): Promise<Article[]> {
+  const articles = await getAllArticles(fields);
   return articles.filter(
     (article) => article.category?.toLowerCase() === category.toLowerCase()
   );
 }
 
 // Récupérer les articles populaires (à adapter selon votre logique de popularité)
-export function getFeaturedArticles(
+export async function getFeaturedArticles(
   limit: number = 5,
   fields: string[] = [
     "slug",
@@ -132,14 +137,15 @@ export function getFeaturedArticles(
     "tags",
     "readingTime",
   ]
-): Article[] {
+): Promise<Article[]> {
   // Ici, on prend simplement les articles les plus récents comme "populaires"
   // Dans un cas réel, on pourrait avoir une logique basée sur des vues, des likes, etc.
-  return getAllArticles(fields).slice(0, limit);
+  const articles = await getAllArticles(fields);
+  return articles.slice(0, limit);
 }
 
 // Récupérer les articles les plus récents
-export function getRecentArticles(
+export async function getRecentArticles(
   limit: number = 3,
   fields: string[] = [
     "slug",
@@ -151,6 +157,38 @@ export function getRecentArticles(
     "tags",
     "readingTime",
   ]
-): Article[] {
-  return getAllArticles(fields).slice(0, limit);
+): Promise<Article[]> {
+  const articles = await getAllArticles(fields);
+  return articles.slice(0, limit);
+}
+
+// Vérifier si un slug représente une catégorie ou un article
+export async function isCategory(slug: string): Promise<boolean> {
+  // Vérifier si le fichier MD existe pour ce slug
+  const articlePath = path.join(articlesDirectory, `${slug}.md`);
+  const articleExists = fs.existsSync(articlePath);
+
+  if (articleExists) {
+    return false; // C'est un article, pas une catégorie
+  }
+
+  // Vérifier si des articles sont associés à cette catégorie
+  const articles = await getAllArticles(["category"]);
+  return articles.some(
+    (article) => article.category?.toLowerCase() === slug.toLowerCase()
+  );
+}
+
+// Obtenir toutes les catégories uniques
+export async function getAllCategories(): Promise<string[]> {
+  const articles = await getAllArticles(["category"]);
+
+  // Extraire toutes les catégories uniques
+  return Array.from(
+    new Set(
+      articles
+        .filter((article) => article.category)
+        .map((article) => article.category!.toLowerCase())
+    )
+  );
 }
